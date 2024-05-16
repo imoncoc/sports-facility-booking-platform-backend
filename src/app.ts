@@ -1,6 +1,6 @@
 import express, { Application, Request, Response } from 'express';
 import cors from 'cors';
-import config from './app/config';
+// import config from './app/config';
 
 const app: Application = express();
 
@@ -15,8 +15,8 @@ app.get('/', (req: Request, res: Response) => {
   //   res.send("Hello World!");
 });
 
-app.listen(config.port, () => {
-  console.log(`Example app listening on port ${config.port}`);
-});
+// app.listen(config.port, () => {
+//   console.log(`Example app listening on port ${config.port}`);
+// });
 
 export default app;

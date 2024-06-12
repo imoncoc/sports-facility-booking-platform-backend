@@ -9,6 +9,11 @@ const createFacilityIntoDB = async (facility: TFacility) => {
   return result;
 };
 
+const getAllFacilitiesFromDB = async () => {
+  const result = await Facility.find();
+  return result;
+};
+
 const updateFacilityInDB = async (
   id: string,
   updateData: Partial<TFacility>,
@@ -33,7 +38,19 @@ const updateFacilityInDB = async (
   return updatedProduct;
 };
 
+const deleteFacilityFromDB = async (id: string) => {
+  const objectId = new mongoose.Types.ObjectId(id);
+  const deletedFaculty = await Facility.findOneAndUpdate(
+    { _id: objectId },
+    { isDeleted: true },
+    { new: true },
+  );
+  return deletedFaculty;
+};
+
 export const facilityServices = {
   createFacilityIntoDB,
   updateFacilityInDB,
+  getAllFacilitiesFromDB,
+  deleteFacilityFromDB,
 };

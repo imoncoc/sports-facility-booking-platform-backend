@@ -6,15 +6,18 @@ import validateRequest from '../../middlewares/validateRequest';
 const router = express.Router();
 
 router.post(
-  '/facility',
+  '/',
   validateRequest(facilityValidation.createFacility),
   FacilityControllers.createFacility,
 );
+router.get('/', FacilityControllers.getAllFacilities);
 
 router.put(
-  '/facility/:id',
+  '/:id',
   validateRequest(facilityValidation.updateFacility),
   FacilityControllers.updateFacility,
 );
+
+router.delete('/:id', FacilityControllers.deleteFacility);
 
 export const FacilityRoutes = router;

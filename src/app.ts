@@ -1,5 +1,7 @@
 import express, { Application, Request, Response } from 'express';
 import cors from 'cors';
+import router from './app/routes';
+import notFound from './app/middlewares/notFound';
 // import config from './app/config';
 
 const app: Application = express();
@@ -12,10 +14,13 @@ app.use(cors());
 // app.use('/api/v1/students');
 
 const getAController = (req: Request, res: Response) => {
-  const a = 10;
-  res.send(a);
+  res.send('Hello Next level Developer!');
 };
-
+// applications
 app.get('/', getAController);
+app.use('/api', router);
+
+// NOt Found
+app.use(notFound);
 
 export default app;

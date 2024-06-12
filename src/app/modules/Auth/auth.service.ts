@@ -9,8 +9,6 @@ const loginUser = async (payload: TLoginUser) => {
   //   const isUserExists = await User.findOne({ email: payload?.email });
   const user = await User.isUsersExistsByCustomId(payload?.email);
 
-  console.log(user);
-
   if (!user) {
     throw new AppError(httpStatus.NOT_FOUND, 'This user is not found!');
   }
@@ -35,11 +33,11 @@ const loginUser = async (payload: TLoginUser) => {
     role: user.role,
   };
 
-  const accessToken = jwt.sign(jwtPayload, config.jwt_access_secret, {
+  const accessToken = jwt.sign(jwtPayload, config.jwt_access_secret as string, {
     expiresIn: config.jwt_access_expires_in,
   });
 
-  return {};
+  return accessToken;
 };
 
 export const AuthServices = {

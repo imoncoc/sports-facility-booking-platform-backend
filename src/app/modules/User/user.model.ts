@@ -5,10 +5,12 @@ import bcrypt from 'bcrypt';
 import config from '../../config';
 
 const userSchema = new Schema<TUser, UserModel>({
+  _id: {
+    type: String,
+  },
   name: {
     type: String,
     required: true,
-    unique: true,
   },
   email: {
     type: String,
@@ -34,7 +36,6 @@ const userSchema = new Schema<TUser, UserModel>({
 
 // pre save middleware / hook
 userSchema.pre('save', async function (next) {
-  // console.log(this, 'pre hook: save data');
   // eslint-disable-next-line @typescript-eslint/no-this-alias
   const user = this; // current document
   // hashing password and save into DB
@@ -49,7 +50,6 @@ userSchema.pre('save', async function (next) {
 
 // set empty "" after saving password
 userSchema.post('save', function (doc, next) {
-  // console.log(this, 'post hook: after saved data');
   doc.password = '';
   next();
 });

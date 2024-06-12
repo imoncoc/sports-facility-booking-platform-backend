@@ -5,13 +5,13 @@ import { userServices } from './user.service';
 
 const createUser = catchAsync(async (req, res) => {
   const user = req.body;
-  console.log({ user });
+  //   console.log({ user });
 
   const result = await userServices.createUserIntoDB(user);
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'Student is created successfully',
+    message: 'User registered successfully',
     data: result,
   });
 });

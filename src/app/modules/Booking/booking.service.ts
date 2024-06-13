@@ -1,8 +1,9 @@
 import { TBooking } from './booking.interface';
 import { Booking } from './booking.model';
 
-const createBookingIntoDB = async (booking: TBooking) => {
-  const result = await Booking.create(booking);
+const createBookingIntoDB = async (payload: TBooking) => {
+  console.log('service payload: ', payload);
+  const result = await Booking.create(payload);
   return result;
 };
 

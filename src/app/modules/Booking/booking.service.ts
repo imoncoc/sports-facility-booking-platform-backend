@@ -12,7 +12,17 @@ const getAllBookingFromDB = async () => {
   return result;
 };
 
+const checkAvailabilityByDateIntoDB = async (term: string) => {
+  console.log('checkAvailabilityByDateIntoDB: ', term);
+  // const result = await Booking.find({
+  //   $or: [{ search: { $regex: term, $options: 'i' } }],
+  // });
+
+  return null;
+};
+
 export const bookingServices = {
   createBookingIntoDB,
   getAllBookingFromDB,
+  checkAvailabilityByDateIntoDB,
 };

@@ -6,6 +6,11 @@ import { User } from '../User/user.model';
 import { Facility } from '../Facility/facility.model';
 import AppError from '../../errors/AppError';
 
+interface SearchQuery {
+  date: string;
+  facilityId: string;
+}
+
 const createBooking = catchAsync(async (req, res) => {
   const booking = req.body;
   const facilityID = booking?.facility;
@@ -34,6 +39,20 @@ const getAllBooking = catchAsync(async (req, res) => {
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
+    message: 'Booking retrieved successfully',
+    data: result,
+  });
+});
+
+const checkAvailability = catchAsync(async (req, res) => {
+  const { date } = req.query;
+  console.log('rq.query: ', req.query);
+
+  const result = await bookingServices.checkAvailabilityByDateIntoDB(date);
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
     message: 'Facilities retrieved successfully',
     data: result,
   });
@@ -42,4 +61,5 @@ const getAllBooking = catchAsync(async (req, res) => {
 export const BookingControllers = {
   createBooking,
   getAllBooking,
+  checkAvailability,
 };

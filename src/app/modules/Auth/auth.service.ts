@@ -37,7 +37,9 @@ const loginUser = async (payload: TLoginUser) => {
     expiresIn: config.jwt_access_expires_in,
   });
 
-  return accessToken;
+  console.log('user: ', user);
+
+  return { accessToken, user };
 };
 
 export const AuthServices = {

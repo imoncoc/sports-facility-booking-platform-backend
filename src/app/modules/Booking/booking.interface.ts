@@ -6,6 +6,6 @@ export type TBooking = {
   endTime: string;
   user: Types.ObjectId;
   facility: Types.ObjectId;
-  payableAmount: number;
-  isBooked: boolean;
+  payableAmount?: number;
+  isBooked: 'confirmed' | 'unconfirmed' | 'canceled';
 };

@@ -30,8 +30,8 @@ const bookingSchema = new mongoose.Schema<TBooking>({
     ref: 'user',
   },
   isBooked: {
-    type: Boolean,
-    required: [true, 'isBooked is required'],
+    type: String,
+    enum: ['confirmed', 'unconfirmed', 'canceled'],
   },
 });
 

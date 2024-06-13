@@ -1,16 +1,30 @@
 import httpStatus from 'http-status';
 import catchAsync from '../../utils/catchAsync';
-import sendResponse from '../../utils/sendResponse';
 import { AuthServices } from './auth.service';
 
 const loginUser = catchAsync(async (req, res) => {
   const result = await AuthServices.loginUser(req.body);
 
-  sendResponse(res, {
-    statusCode: httpStatus.OK,
+  // sendResponse(res, {
+  //   statusCode: httpStatus.OK,
+  //   success: true,
+  //   message: 'User is logged in successfully',
+  //   data: result,
+  // });
+
+  res.status(httpStatus.OK).json({
     success: true,
-    message: 'User is logged in successfully',
-    data: result,
+    statusCode: httpStatus.OK,
+    message: 'User Logged Successfully',
+    accessToken: result?.accessToken,
+    data: {
+      _id: result?.user?._id,
+      name: result?.user?.name,
+      email: result?.user?.email,
+      role: result?.user?.role,
+      phone: result?.user?.phone,
+      address: result?.user?.address,
+    },
   });
 });
 

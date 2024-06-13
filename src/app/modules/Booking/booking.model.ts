@@ -27,12 +27,13 @@ const bookingSchema = new mongoose.Schema<TBooking>({
   payableAmount: {
     type: Number,
     required: [true, 'PayableAmount is required'],
-    ref: 'user',
+    default: false,
   },
   isBooked: {
     type: String,
     enum: ['confirmed', 'unconfirmed', 'canceled'],
+    default: 'confirmed',
   },
 });
 
-export const Booking = model<TBooking>('Facility', bookingSchema);
+export const Booking = model<TBooking>('Booking', bookingSchema);

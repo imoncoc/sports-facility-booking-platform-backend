@@ -6,6 +6,12 @@ const createBookingIntoDB = async (booking: TBooking) => {
   return result;
 };
 
+const getAllBookingFromDB = async () => {
+  const result = await Booking.find();
+  return result;
+};
+
 export const bookingServices = {
   createBookingIntoDB,
+  getAllBookingFromDB,
 };

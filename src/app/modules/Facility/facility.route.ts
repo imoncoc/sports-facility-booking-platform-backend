@@ -9,6 +9,7 @@ const router = express.Router();
 
 router.post(
   '/',
+  auth(USER_ROLE.admin),
   validateRequest(facilityValidation.createFacility),
   FacilityControllers.createFacility,
 );
@@ -16,10 +17,15 @@ router.get('/', auth(USER_ROLE.admin), FacilityControllers.getAllFacilities);
 
 router.put(
   '/:id',
+  auth(USER_ROLE.admin),
   validateRequest(facilityValidation.updateFacility),
   FacilityControllers.updateFacility,
 );
 
-router.delete('/:id', FacilityControllers.deleteFacility);
+router.delete(
+  '/:id',
+  auth(USER_ROLE.admin),
+  FacilityControllers.deleteFacility,
+);
 
 export const FacilityRoutes = router;

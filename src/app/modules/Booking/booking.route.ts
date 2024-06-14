@@ -19,11 +19,18 @@ router.get(
   auth(USER_ROLE.admin),
   BookingControllers.getAllBooking,
 );
-// router.get(
-//   '/bookings',
-//   auth(USER_ROLE.admin),
-//   BookingControllers.getAllBooking,
-// );
+router.get(
+  '/bookings/user',
+  auth(USER_ROLE.user),
+  BookingControllers.getAllBookingByUser,
+);
+
+router.delete(
+  '/bookings/:id',
+  auth(USER_ROLE.user),
+  BookingControllers.deleteBookingByUser,
+);
+
 router.get('/check-availability', BookingControllers.checkAvailability);
 
 export const BookingRoutes = router;

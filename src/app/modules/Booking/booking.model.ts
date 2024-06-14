@@ -3,7 +3,7 @@ import { TBooking } from './booking.interface';
 
 const bookingSchema = new mongoose.Schema<TBooking>({
   date: {
-    type: Date,
+    type: String,
     required: [true, 'Date is required'],
   },
   startTime: {
@@ -17,12 +17,12 @@ const bookingSchema = new mongoose.Schema<TBooking>({
   user: {
     type: Schema.Types.ObjectId,
     required: true,
-    ref: 'user',
+    ref: 'User',
   },
   facility: {
     type: Schema.Types.ObjectId,
     required: [true, 'facility id is required'],
-    ref: 'facility',
+    ref: 'Facility',
   },
   payableAmount: {
     type: Number,

@@ -5,6 +5,7 @@ const facilitySchema = new Schema<TFacility>({
   name: {
     type: String,
     required: true,
+    unique: true,
   },
   description: {
     type: String,

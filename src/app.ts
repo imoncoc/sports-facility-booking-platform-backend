@@ -15,7 +15,9 @@ app.use(cors());
 // app.use('/api/v1/students');
 
 const getAController = (req: Request, res: Response) => {
-  res.send('Hello Next level Developer!');
+  res.send(
+    'Hello, Next level Developer!. This project is about sports booking platform',
+  );
 };
 // applications
 app.get('/', getAController);

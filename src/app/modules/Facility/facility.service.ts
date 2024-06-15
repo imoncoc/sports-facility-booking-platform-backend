@@ -27,7 +27,7 @@ const updateFacilityInDB = async (
   // Check if the document exists before updating
   const existingFacility = await Facility.findById(objectId);
   if (!existingFacility) {
-    return null;
+    throw new AppError(httpStatus.NOT_FOUND, 'Invalid facility ID');
   }
 
   const updatedProduct = await Facility.findByIdAndUpdate(
@@ -35,6 +35,7 @@ const updateFacilityInDB = async (
     { $set: updateData },
     { new: true, runValidators: true },
   );
+  console.log('updatedProduct: ', updatedProduct);
   return updatedProduct;
 };
 

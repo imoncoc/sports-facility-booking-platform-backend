@@ -31,6 +31,7 @@ const updateFacility = z.object({
       .string()
       .nonempty({ message: 'Location is required' })
       .optional(),
+    image: z.string().nonempty({ message: 'Image is required' }).optional(),
   }),
 });
 

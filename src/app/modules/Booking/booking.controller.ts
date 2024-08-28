@@ -80,7 +80,7 @@ const checkAvailability = catchAsync(async (req, res) => {
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'Facilities retrieved successfully',
+    message: 'Availability checked successfully',
     data: result,
   });
 });

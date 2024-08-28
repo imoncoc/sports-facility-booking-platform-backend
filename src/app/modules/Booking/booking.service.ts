@@ -65,7 +65,7 @@ const createBookingIntoDB = async (
 };
 
 const getAllBookingFromDB = async () => {
-  const result = await Booking.find();
+  const result = await Booking.find().populate('facility');
   return result;
 };
 
@@ -73,7 +73,7 @@ const getAllBookingByUserFromDB = async (user: JwtPayload) => {
   const users = await User.isUsersExistsByCustomId(user?.userEmail);
   const userId = users._id;
 
-  const result = await Booking.find({ user: userId });
+  const result = await Booking.find({ user: userId }).populate('facility');
 
   return result;
 };
@@ -132,8 +132,6 @@ const checkAvailabilityByDateIntoDB = async (dateData: string) => {
     endTime: data.endTime,
   }));
 
-  console.log('availableSlotsDate: ', availableSlotsDate);
-
   // initialtime here
   let availableStartTime = '00:00';
   let availableEndTime = '24:00';
@@ -143,7 +141,6 @@ const checkAvailabilityByDateIntoDB = async (dateData: string) => {
     availableEndTime = '23:59';
   }
 
-  console.log('bookedTimeSlots', bookedTimeSlots);
   // Initialize available time slots here
   let availableSlots: { startTime: string; endTime: string }[] = [
     { startTime: availableStartTime, endTime: availableEndTime },
@@ -185,8 +182,6 @@ const checkAvailabilityByDateIntoDB = async (dateData: string) => {
       [] as { startTime: string; endTime: string }[],
     );
   }
-
-  console.log('availableSlots: ', availableSlots);
 
   return availableSlots;
 };

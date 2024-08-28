@@ -14,6 +14,7 @@ router.post(
   FacilityControllers.createFacility,
 );
 router.get('/', FacilityControllers.getAllFacilities);
+router.get('/:facilityId', FacilityControllers.getSingleFacility);
 
 router.put(
   '/:id',

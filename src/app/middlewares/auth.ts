@@ -18,8 +18,16 @@ const auth = (...requiredRoles: TUserRole[]) => {
       );
     }
 
+    const tokenSplit = token.split(' ');
+
+    if (tokenSplit.length !== 2 || tokenSplit[0] !== 'Bearer') {
+      throw new Error('Please Provide Valid Token Format');
+    }
+
+    const accessToken = tokenSplit[1];
+
     const decoded = jwt.verify(
-      token,
+      accessToken,
       config.jwt_access_secret as string,
     ) as JwtPayload;
 

@@ -118,21 +118,36 @@ const deleteBookingByUserFromDB = async (id: string, user: JwtPayload) => {
   return updatedBooking;
 };
 
-const checkAvailabilityByDateIntoDB = async (dateData: string) => {
+const checkAvailabilityByDateAndFacilityIntoDB = async (
+  dateData: string,
+  facilityId: string,
+) => {
   const currentDate = new Date();
   const updateDate = formatDate(currentDate);
   const queryDate = dateData ? dateData : updateDate;
+
+  // Validate date format
   if (!validateDateFormat(queryDate)) {
     throw new Error('Invalid date format. Date must be in YYYY-MM-dd format.');
   }
 
-  const availableSlotsDate = await Booking.find({ date: queryDate });
+  // Validate facilityId
+  if (!facilityId) {
+    throw new Error('Facility ID is required.');
+  }
+
+  // Find bookings by date and facilityId
+  const availableSlotsDate = await Booking.find({
+    date: queryDate,
+    facility: facilityId,
+  });
+
   const bookedTimeSlots = availableSlotsDate.map((data) => ({
     startTime: data.startTime,
     endTime: data.endTime,
   }));
 
-  // initialtime here
+  // Initial time range for available slots
   let availableStartTime = '00:00';
   let availableEndTime = '24:00';
 
@@ -141,7 +156,7 @@ const checkAvailabilityByDateIntoDB = async (dateData: string) => {
     availableEndTime = '23:59';
   }
 
-  // Initialize available time slots here
+  // Initialize available time slots
   let availableSlots: { startTime: string; endTime: string }[] = [
     { startTime: availableStartTime, endTime: availableEndTime },
   ];
@@ -160,6 +175,7 @@ const checkAvailabilityByDateIntoDB = async (dateData: string) => {
         const slotEndMinutes = timeToMinutes(slot.endTime);
         const bookingStartMinutes = timeToMinutes(booking.startTime);
         const bookingEndMinutes = timeToMinutes(booking.endTime);
+
         // Check if booking overlaps with slot
         if (
           bookingStartMinutes < slotEndMinutes &&
@@ -189,7 +205,7 @@ const checkAvailabilityByDateIntoDB = async (dateData: string) => {
 export const bookingServices = {
   createBookingIntoDB,
   getAllBookingFromDB,
-  checkAvailabilityByDateIntoDB,
+  checkAvailabilityByDateAndFacilityIntoDB,
   getAllBookingByUserFromDB,
   deleteBookingByUserFromDB,
 };

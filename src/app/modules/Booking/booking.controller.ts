@@ -71,10 +71,11 @@ const deleteBookingByUser = catchAsync(async (req: Request, res: Response) => {
 });
 
 const checkAvailability = catchAsync(async (req, res) => {
-  const { date } = req.query;
+  const { date, facility } = req.query;
 
-  const result = await bookingServices.checkAvailabilityByDateIntoDB(
+  const result = await bookingServices.checkAvailabilityByDateAndFacilityIntoDB(
     date as string,
+    facility as string,
   );
 
   sendResponse(res, {

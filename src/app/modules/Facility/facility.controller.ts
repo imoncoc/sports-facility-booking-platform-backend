@@ -36,6 +36,7 @@ const getSingleFacility = async (req: Request, res: Response) => {
       message: 'Facility fetched successfully!',
       data: result,
     });
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (err: any) {
     res.status(500).json({
       success: false,
@@ -59,7 +60,6 @@ const updateFacility = catchAsync(async (req, res) => {
 });
 
 const deleteFacility = catchAsync(async (req, res) => {
-  console.log('works deleteFacility');
   const { id } = req.params;
   const result = await facilityServices.deleteFacilityFromDB(id);
 

@@ -1,4 +1,7 @@
 {
+  "compilerOptions": {
+    "module": "CommonJS"
+  },
   "env": {
     "browser": true,
     "es2021": true

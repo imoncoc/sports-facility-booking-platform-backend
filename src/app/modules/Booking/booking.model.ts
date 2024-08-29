@@ -34,6 +34,15 @@ const bookingSchema = new mongoose.Schema<TBooking>({
     enum: ['confirmed', 'unconfirmed', 'canceled'],
     default: 'confirmed',
   },
+  paymentStatus: {
+    type: String,
+    enum: ['pending', 'paid', 'failed'],
+    default: 'pending',
+  },
+  transactionId: {
+    type: String,
+    required: [true, 'Transaction Id is required'],
+  },
 });
 
 export const Booking = model<TBooking>('Booking', bookingSchema);

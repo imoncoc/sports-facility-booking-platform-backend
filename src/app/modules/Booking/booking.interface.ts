@@ -8,6 +8,8 @@ export type TBooking = {
   facility: Types.ObjectId;
   payableAmount?: number;
   isBooked: 'confirmed' | 'unconfirmed' | 'canceled';
+  paymentStatus: 'pending' | 'paid' | 'failed';
+  transactionId: string;
 };
 
 export type TSchedule = {

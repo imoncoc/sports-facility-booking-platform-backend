@@ -6,6 +6,7 @@ import { Booking } from './booking.model';
 import { formatDate, timeConflict, validateDateFormat } from './booking.utils';
 import { User } from '../User/user.model';
 import { JwtPayload } from 'jsonwebtoken';
+import { initialPayment } from '../payment/payment.utils';
 
 const createBookingIntoDB = async (
   userEmail: string,
@@ -52,16 +53,35 @@ const createBookingIntoDB = async (
   const user = await User.isUsersExistsByCustomId(userEmail);
   const userId = user?._id;
 
+  const transactionId = `TXN-${Date.now()}`;
+
   const result = await Booking.create({
-    facility,
-    startTime,
-    endTime,
     date,
-    user: userId,
-    payableAmount,
+    endTime,
+    facility,
     isBooked: 'confirmed',
+    payableAmount,
+    startTime,
+    user: userId,
+    paymentStatus: 'pending',
+    transactionId,
   });
-  return result;
+
+  await result.save();
+
+  // Added Payment
+
+  const paymentData = {
+    transactionId,
+    amount: payableAmount,
+    customerName: user.name,
+    customerEmail: user.email,
+    customerPhone: user.phone,
+    customerAddress: user.address,
+  };
+  const paymentSession = await initialPayment(paymentData);
+
+  return paymentSession;
 };
 
 const getAllBookingFromDB = async () => {
@@ -149,7 +169,7 @@ const checkAvailabilityByDateAndFacilityIntoDB = async (
 
   // Initial time range for available slots
   let availableStartTime = '00:00';
-  let availableEndTime = '24:00';
+  let availableEndTime = '23:59';
 
   if (bookedTimeSlots.length === 0) {
     availableStartTime = '00:00';

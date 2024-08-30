@@ -7,6 +7,8 @@ import { formatDate, timeConflict, validateDateFormat } from './booking.utils';
 import { User } from '../User/user.model';
 import { JwtPayload } from 'jsonwebtoken';
 import { initialPayment } from '../payment/payment.utils';
+import QueryBuilder from '../../builder/QueryBuilder';
+import { BookingSearchableFields } from './booking.constant';
 
 const createBookingIntoDB = async (
   userEmail: string,
@@ -84,18 +86,43 @@ const createBookingIntoDB = async (
   return paymentSession;
 };
 
-const getAllBookingFromDB = async () => {
-  const result = await Booking.find().populate('facility');
-  return result;
+const getAllBookingFromDB = async (query: Record<string, unknown>) => {
+  // const result = await Booking.find().populate('facility');
+  const bookingQuery = new QueryBuilder(
+    Booking.find().populate('facility'),
+    query,
+  )
+    .search(BookingSearchableFields)
+    .filter()
+    .sort()
+    .paginate()
+    .fields();
+  const result = await bookingQuery.modelQuery;
+  const meta = await bookingQuery.countTotal();
+  return { result, meta };
 };
 
-const getAllBookingByUserFromDB = async (user: JwtPayload) => {
+const getAllBookingByUserFromDB = async (
+  user: JwtPayload,
+  query: Record<string, unknown>,
+) => {
   const users = await User.isUsersExistsByCustomId(user?.userEmail);
   const userId = users._id;
 
-  const result = await Booking.find({ user: userId }).populate('facility');
+  // const result = await Booking.find({ user: userId }).populate('facility');
+  const bookingQuery = new QueryBuilder(
+    Booking.find({ user: userId }).populate('facility'),
+    query,
+  )
+    .search(BookingSearchableFields)
+    .filter()
+    .sort()
+    .paginate()
+    .fields();
 
-  return result;
+  const result = await bookingQuery.modelQuery;
+  const meta = await bookingQuery.countTotal();
+  return { result, meta };
 };
 
 const deleteBookingByUserFromDB = async (id: string, user: JwtPayload) => {

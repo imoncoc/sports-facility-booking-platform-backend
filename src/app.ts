@@ -4,6 +4,7 @@ import router from './app/routes';
 import notFound from './app/middlewares/notFound';
 import globalErrorHandler from './app/middlewares/globalErrorHandler';
 // import config from './app/config';
+import path from 'path';
 
 const app: Application = express();
 
@@ -13,6 +14,8 @@ app.use(cors());
 
 // applications
 // app.use('/api/v1/students');
+
+app.use(express.static(path.join(__dirname, 'public')));
 
 const getAController = (req: Request, res: Response) => {
   res.send(

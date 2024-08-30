@@ -10,7 +10,6 @@ const app: Application = express();
 
 // parsers
 app.use(express.json());
-app.use(cors());
 
 // applications
 // app.use('/api/v1/students');

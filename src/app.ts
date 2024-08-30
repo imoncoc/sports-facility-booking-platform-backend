@@ -14,6 +14,12 @@ app.use(cors());
 
 // applications
 // app.use('/api/v1/students');
+app.use(
+  cors({
+    origin: ['http://localhost:5173', 'https://sports-facility-v5.netlify.app'],
+    credentials: true,
+  }),
+);
 
 app.use(express.static(path.join(__dirname, 'public')));
 

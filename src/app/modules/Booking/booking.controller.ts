@@ -18,16 +18,7 @@ const createBooking = catchAsync(async (req, res) => {
 });
 
 const getAllBooking = catchAsync(async (req, res) => {
-  const result = await bookingServices.getAllBookingFromDB();
-
-  if (result && result?.length === 0) {
-    return sendResponse(res, {
-      statusCode: httpStatus.NOT_FOUND,
-      success: false,
-      message: 'No Data Found',
-      data: result,
-    });
-  }
+  const result = await bookingServices.getAllBookingFromDB(req.query);
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
@@ -39,16 +30,19 @@ const getAllBooking = catchAsync(async (req, res) => {
 
 const getAllBookingByUser = catchAsync(async (req, res) => {
   const user: JwtPayload = req.user;
-  const result = await bookingServices.getAllBookingByUserFromDB(user);
+  const result = await bookingServices.getAllBookingByUserFromDB(
+    user,
+    req.query,
+  );
 
-  if (result && result?.length === 0) {
-    return sendResponse(res, {
-      statusCode: httpStatus.NOT_FOUND,
-      success: false,
-      message: 'No Data Found',
-      data: result,
-    });
-  }
+  // if (result && result?.length === 0) {
+  //   return sendResponse(res, {
+  //     statusCode: httpStatus.NOT_FOUND,
+  //     success: false,
+  //     message: 'No Data Found',
+  //     data: result,
+  //   });
+  // }
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
